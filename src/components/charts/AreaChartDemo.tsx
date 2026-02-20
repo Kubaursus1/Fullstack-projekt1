@@ -10,19 +10,17 @@ import {
   Tooltip,
 } from "recharts"
 import {
-  ChartContainer,
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
 
-const chartData = [
-  { month: "Sty", wartosc: 186, zapytania: 80 },
-  { month: "Lut", wartosc: 305, zapytania: 200 },
-  { month: "Mar", wartosc: 237, zapytania: 120 },
-  { month: "Kwi", wartosc: 73, zapytania: 190 },
-  { month: "Maj", wartosc: 209, zapytania: 130 },
-  { month: "Cze", wartosc: 214, zapytania: 140 },
-]
+interface AreaChartDemoProps {
+  data: {
+    month: string
+    wartosc: number
+    zapytania: number
+  }[]
+}
 
 const chartConfig = {
   wartosc: {
@@ -38,11 +36,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function AreaChartDemo() {
+export function AreaChartDemo({ data }: AreaChartDemoProps) {
   return (
-    <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
+    <div className="h-full w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <RechartsAreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+        <RechartsAreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
           <XAxis
             dataKey="month"
@@ -79,6 +77,6 @@ export function AreaChartDemo() {
           />
         </RechartsAreaChart>
       </ResponsiveContainer>
-    </ChartContainer>
+    </div>
   )
 }

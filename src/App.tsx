@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -33,6 +33,37 @@ import { UserPlus } from "lucide-react"
 
 function App() {
   const [dialogOpen, setDialogOpen] = useState(false)
+
+  const defaultChartData = [
+    { month: "Sty", wartosc: 186, zapytania: 80 },
+    { month: "Lut", wartosc: 305, zapytania: 200 },
+    { month: "Mar", wartosc: 237, zapytania: 120 },
+    { month: "Kwi", wartosc: 73, zapytania: 190 },
+    { month: "Maj", wartosc: 209, zapytania: 130 },
+    { month: "Cze", wartosc: 214, zapytania: 140 },
+  ]
+
+  const [chartData, setChartData] = useState(() => {
+    const saved = localStorage.getItem("chartData")
+    return saved ? JSON.parse(saved) : defaultChartData
+  })
+
+  useEffect(() => {
+    localStorage.setItem("chartData", JSON.stringify(chartData))
+  }, [chartData])
+
+  const handleNewRegistration = () => {
+    console.log("Aktualizuję wykres!")
+    setChartData((prev: { month: string, wartosc: number, zapytania: number}[]) => {
+      const newData = [...prev]
+      const lastIndex = newData.length - 1
+      newData[lastIndex] = {
+        ...newData[lastIndex],
+        wartosc: newData[lastIndex].wartosc + 1,
+      }
+      return newData
+    })
+  }
 
   return (
     <TooltipProvider>
@@ -85,8 +116,8 @@ function App() {
                   Wykres obszarowy – zapytania i potwierdzone zapisy.
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <AreaChartDemo />
+              <CardContent className="h-[350px]">
+                <AreaChartDemo data={chartData} />
               </CardContent>
             </Card>
 
@@ -123,7 +154,12 @@ function App() {
                         Przycisk „Dalej” jest aktywny, gdy dany krok jest poprawnie wypełniony.
                       </DialogDescription>
                     </DialogHeader>
-                    <RegistrationForm onSuccess={() => setDialogOpen(false)} />
+                    <RegistrationForm
+                      onSuccess={() => {
+                        handleNewRegistration()
+                        setDialogOpen(false)
+                      }}
+                    />
                   </DialogContent>
                 </Dialog>
               </CardContent>
