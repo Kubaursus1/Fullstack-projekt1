@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -14,25 +14,25 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { RegistrationForm } from "@/components/form/RegistrationForm"
-import { AreaChartDemo } from "@/components/charts/AreaChartDemo"
-import { UserPlus } from "lucide-react"
+} from "@/components/ui/tooltip";
+import { RegistrationForm } from "@/components/form/RegistrationForm";
+import { AreaChartDemo } from "@/components/charts/AreaChartDemo";
+import { UserPlus } from "lucide-react";
 
 function App() {
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const defaultChartData = [
     { month: "Sty", wartosc: 186, zapytania: 80 },
@@ -41,29 +41,31 @@ function App() {
     { month: "Kwi", wartosc: 73, zapytania: 190 },
     { month: "Maj", wartosc: 209, zapytania: 130 },
     { month: "Cze", wartosc: 214, zapytania: 140 },
-  ]
+  ];
 
   const [chartData, setChartData] = useState(() => {
-    const saved = localStorage.getItem("chartData")
-    return saved ? JSON.parse(saved) : defaultChartData
-  })
+    const saved = localStorage.getItem("chartData");
+    return saved ? JSON.parse(saved) : defaultChartData;
+  });
 
   useEffect(() => {
-    localStorage.setItem("chartData", JSON.stringify(chartData))
-  }, [chartData])
+    localStorage.setItem("chartData", JSON.stringify(chartData));
+  }, [chartData]);
 
   const handleNewRegistration = () => {
-    console.log("Aktualizuję wykres!")
-    setChartData((prev: { month: string, wartosc: number, zapytania: number}[]) => {
-      const newData = [...prev]
-      const lastIndex = newData.length - 1
-      newData[lastIndex] = {
-        ...newData[lastIndex],
-        wartosc: newData[lastIndex].wartosc + 1,
-      }
-      return newData
-    })
-  }
+    console.log("Aktualizuję wykres!");
+    setChartData(
+      (prev: { month: string; wartosc: number; zapytania: number }[]) => {
+        const newData = [...prev];
+        const lastIndex = newData.length - 1;
+        newData[lastIndex] = {
+          ...newData[lastIndex],
+          wartosc: newData[lastIndex].wartosc + 1,
+        };
+        return newData;
+      },
+    );
+  };
 
   return (
     <TooltipProvider>
@@ -88,7 +90,7 @@ function App() {
                   <DropdownMenuItem
                     className="cursor-pointer"
                     onSelect={() => {
-                      setDialogOpen(true)
+                      setDialogOpen(true);
                     }}
                   >
                     Zapisz się na warsztaty
@@ -96,7 +98,7 @@ function App() {
                   <DropdownMenuItem
                     className="cursor-pointer"
                     onSelect={() => {
-                      window.scrollTo({ top: 0, behavior: "smooth" })
+                      window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
                   >
                     Przewiń do góry
@@ -116,7 +118,7 @@ function App() {
                   Wykres obszarowy – zapytania i potwierdzone zapisy.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="h-[350px]">
+              <CardContent className="h-87.5">
                 <AreaChartDemo data={chartData} />
               </CardContent>
             </Card>
@@ -125,8 +127,8 @@ function App() {
               <CardHeader>
                 <CardTitle>Zapisz się na warsztaty</CardTitle>
                 <CardDescription>
-                  Wypełnij formularz w trzech krokach (dane, adres, podsumowanie).
-                  Możesz wracać i edytować pola.
+                  Wypełnij formularz w trzech krokach (dane, adres,
+                  podsumowanie). Możesz wracać i edytować pola.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -134,9 +136,7 @@ function App() {
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <DialogTrigger asChild>
-                        <Button
-                          className="w-full sm:w-auto focus:ring-2 focus:ring-ring focus:ring-offset-2 hover:bg-primary/90 active:scale-[0.98]"
-                        >
+                        <Button className="w-full sm:w-auto focus:ring-2 focus:ring-ring focus:ring-offset-2 hover:bg-primary/90 active:scale-[0.98]">
                           <UserPlus className="mr-2 h-4 w-4" />
                           Wypełnij formularz zapisu
                         </Button>
@@ -150,14 +150,15 @@ function App() {
                     <DialogHeader>
                       <DialogTitle>Formularz zapisu na warsztaty</DialogTitle>
                       <DialogDescription>
-                        Krok 1: dane osobowe, krok 2: adres, krok 3: podsumowanie i ocena.
-                        Przycisk „Dalej” jest aktywny, gdy dany krok jest poprawnie wypełniony.
+                        Krok 1: dane osobowe, krok 2: adres, krok 3:
+                        podsumowanie i ocena. Przycisk „Dalej” jest aktywny, gdy
+                        dany krok jest poprawnie wypełniony.
                       </DialogDescription>
                     </DialogHeader>
                     <RegistrationForm
                       onSuccess={() => {
-                        handleNewRegistration()
-                        setDialogOpen(false)
+                        handleNewRegistration();
+                        setDialogOpen(false);
                       }}
                     />
                   </DialogContent>
@@ -168,7 +169,7 @@ function App() {
         </div>
       </div>
     </TooltipProvider>
-  )
+  );
 }
 
-export default App
+export default App;

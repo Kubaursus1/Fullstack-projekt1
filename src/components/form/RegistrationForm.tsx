@@ -1,23 +1,23 @@
-import { useState, useCallback } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { getWymaganePola, type FormStepId } from "@/types/form"
+import { useState, useCallback } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { getWymaganePola, type FormStepId } from "@/types/form";
 import {
   registrationSchema,
   type RegistrationFormValues,
-} from "@/schemas/registrationSchema"
-import { Form } from "@/components/ui/form"
-import { Button } from "@/components/ui/button"
-import { StepDaneOsobowe } from "@/components/form/StepDaneOsobowe"
-import { StepAdres } from "@/components/form/StepAdres"
-import { StepPotwierdzenie } from "@/components/form/StepPotwierdzenie"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+} from "@/schemas/registrationSchema";
+import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { StepDaneOsobowe } from "@/components/form/StepDaneOsobowe";
+import { StepAdres } from "@/components/form/StepAdres";
+import { StepPotwierdzenie } from "@/components/form/StepPotwierdzenie";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const STEPS: { id: FormStepId; label: string }[] = [
   { id: "dane-osobowe", label: "Dane osobowe" },
   { id: "adres", label: "Adres" },
   { id: "potwierdzenie", label: "Potwierdzenie" },
-]
+];
 
 const defaultValues: Partial<RegistrationFormValues> = {
   imie: "",
@@ -30,47 +30,49 @@ const defaultValues: Partial<RegistrationFormValues> = {
   miasto: "",
   kraj: "",
   ocena: 0,
-}
+};
 
 interface RegistrationFormProps {
-  onSuccess?: () => void
+  onSuccess?: () => void;
 }
 
 export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
-  const [currentStepIndex, setCurrentStepIndex] = useState(0)
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
   const form = useForm<RegistrationFormValues>({
     resolver: zodResolver(registrationSchema),
     defaultValues,
     mode: "onChange",
-  })
+  });
 
   const goNext = useCallback(async () => {
-    if (currentStepIndex >= STEPS.length) return
+    if (currentStepIndex >= STEPS.length) return;
 
     if (currentStepIndex === 0) {
-      const fieldNames = getWymaganePola("dane-osobowe") as (keyof RegistrationFormValues)[]
-      const valid = await form.trigger(fieldNames)
-      if (valid) setCurrentStepIndex(1)
-      return
+      const fieldNames = getWymaganePola(
+        "dane-osobowe",
+      ) as (keyof RegistrationFormValues)[];
+      const valid = await form.trigger(fieldNames);
+      if (valid) setCurrentStepIndex(1);
+      return;
     }
 
     if (currentStepIndex === 1) {
-      setCurrentStepIndex(2)
+      setCurrentStepIndex(2);
     }
-  }, [form, currentStepIndex])
+  }, [form, currentStepIndex]);
 
   const goBack = useCallback(() => {
     if (currentStepIndex > 0) {
-      setCurrentStepIndex((i) => i - 1)
+      setCurrentStepIndex((i) => i - 1);
     }
-  }, [currentStepIndex])
+  }, [currentStepIndex]);
 
   const handleSubmit = (data: RegistrationFormValues) => {
-    console.log("Zapisano:", data)
-    form.reset(defaultValues)
-    onSuccess?.()
-  }
+    console.log("Zapisano:", data);
+    form.reset(defaultValues);
+    onSuccess?.();
+  };
 
   return (
     <Form {...form}>
@@ -95,7 +97,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
           Aktualny krok: {currentStepIndex + 1} / {STEPS.length}
         </div>
 
-        <div className="min-h-[200px] animate-fade-slide-in">
+        <div className="min-h-50 animate-fade-slide-in">
           {currentStepIndex === 0 && <StepDaneOsobowe />}
           {currentStepIndex === 1 && <StepAdres />}
           {currentStepIndex === 2 && <StepPotwierdzenie />}
@@ -126,5 +128,5 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
         </div>
       </form>
     </Form>
-  )
+  );
 }
