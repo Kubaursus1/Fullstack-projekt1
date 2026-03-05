@@ -69,9 +69,9 @@ function App() {
 
   return (
     <TooltipProvider>
-      <div className="min-h-screen bg-background">
+      <div className="@container min-h-screen bg-background">
         <div className="container mx-auto max-w-4xl px-4 py-8 md:py-12">
-          <header className="mb-8 flex flex-wrap items-center justify-between gap-4 md:mb-12">
+          <header className="mb-8 flex flex-col gap-4 @md:flex-row @md:items-center @md:justify-between md:mb-12">
             <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
               Zapisy na warsztaty
             </h1>
@@ -109,21 +109,21 @@ function App() {
           </header>
 
           <main className="space-y-8">
-            <Card className="group overflow-hidden border-border transition-shadow hover:shadow-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+            <Card className="@container group overflow-hidden border-border transition-shadow hover:shadow-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
               <CardHeader className="pb-2">
-                <CardTitle className="text-lg md:text-xl">
+                <CardTitle className="text-base @md:text-lg @lg:text-xl">
                   Liczba zapisów w ostatnich miesiącach
                 </CardTitle>
                 <CardDescription>
                   Wykres obszarowy – zapytania i potwierdzone zapisy.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="h-87.5">
+              <CardContent className="h-64 @md:h-80 @lg:h-96">
                 <AreaChartDemo data={chartData} />
               </CardContent>
             </Card>
 
-            <Card className="border-border transition-shadow hover:shadow-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+            <Card className="@container border-border transition-shadow hover:shadow-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
               <CardHeader>
                 <CardTitle>Zapisz się na warsztaty</CardTitle>
                 <CardDescription>
@@ -136,7 +136,7 @@ function App() {
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <DialogTrigger asChild>
-                        <Button className="w-full sm:w-auto focus:ring-2 focus:ring-ring focus:ring-offset-2 hover:bg-primary/90 active:scale-[0.98]">
+                        <Button className="w-full @sm:w-auto focus:ring-2 focus:ring-ring focus:ring-offset-2 hover:bg-primary/90 active:scale-[0.98]">
                           <UserPlus className="mr-2 h-4 w-4" />
                           Wypełnij formularz zapisu
                         </Button>
